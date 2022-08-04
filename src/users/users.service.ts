@@ -33,6 +33,7 @@ export class UsersService {
   // Post a single product
   async createProduct(createProductDTO: any): Promise<User> {
     const salt = await bcrypt.genSalt();
+    console.log(createProductDTO.password, salt);
     createProductDTO.password = await bcrypt.hash(
       createProductDTO.password,
       salt,

@@ -9,9 +9,14 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot('mongodb://localhost:27017/TodoApp', {
-      useNewUrlParser: true,
-    }),
+    MongooseModule.forRoot(
+      `mongodb+srv://rogelioltz:${encodeURIComponent(
+        'Naruto01',
+      )}@cluster0.oxzcg.mongodb.net/?retryWrites=true&w=majority`,
+      {
+        useNewUrlParser: false,
+      },
+    ),
     UsersModule,
     TodoAppModule,
   ],
