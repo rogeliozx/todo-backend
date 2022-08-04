@@ -31,16 +31,24 @@ export class UsersService {
   }
 
   // Post a single product
-  async createProduct(createProductDTO: any): Promise<User> {
-    const salt = await bcrypt.genSalt();
-    console.log(createProductDTO.password, salt);
-    createProductDTO.password = await bcrypt.hash(
-      createProductDTO.password,
-      salt,
-    );
-    const newProduct = new this.userModel(createProductDTO);
-    newProduct.save();
-    return newProduct;
+  async createProduct(createProductDTO: any): Promise<string> {
+    try {
+      const salt = await bcrypt.genSalt();
+      console.log(createProductDTO.password, salt);
+      createProductDTO.password = await bcrypt.hash(
+        createProductDTO.password,
+        salt,
+      );
+      const newProduct = new this.userModel(createProductDTO);
+      await newProduct.save();
+      const token = this.jwtService.sign({
+        mail: newProduct.email,
+        _id: newProduct._id,
+      });
+      return token;
+    } catch (error) {
+      return error;
+    }
   }
 
   // Delete Product

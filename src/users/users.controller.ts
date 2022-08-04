@@ -20,12 +20,20 @@ export class UsersController {
   // Add Product: /product/create
   @Post('/sigin')
   async createProduct(@Res() res, @Body() createProductDTO: any) {
-    const product = await this.productService.createProduct(createProductDTO);
+    try {
+      const accessToken = await this.productService.createProduct(createProductDTO);
 
-    return res.status(HttpStatus.OK).json({
-      message: 'Product Successfully Created',
-      product,
-    });
+      return res.status(HttpStatus.OK).json({
+        message: 'Product Successfully Created',
+        accessToken,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
+        message: 'Product Successfully Created',
+        error,
+      });
+    }
+ 
   }
 
   @Post('/login')
